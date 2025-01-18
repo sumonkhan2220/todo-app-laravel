@@ -20,7 +20,7 @@ class TodoController extends Controller
 /*AllTodo controller start */
    public function alltodo(){
 
-      $alltodos = addtodo::latest()->paginate(10);
+      $alltodos = addtodo::latest()->paginate(5);
       return view('alltodo', compact('alltodos'));
      }
 /*AllTodo controller end */
@@ -79,6 +79,7 @@ class TodoController extends Controller
       ]);
 
       $data = addtodo::find($id);
+
       if($request->hasFile('image')){
          Storage::delete('public/image/'.$data->image);
          $imageName = Str::uuid()->toString().'.'.$request->image->getClientOriginalExtension();
@@ -86,11 +87,27 @@ class TodoController extends Controller
 
          $data->title = $request->title;
          $data->details = $request->details;
-         $data->image = $request->image;
-      }else{
+         $data->image = $imageName;
 
+         $data->save();
+         return back()->with('success', 'Data Update Successfuly');
+      }else{
+         $data->title = $request->title;
+         $data->details = $request->details;
+         $data->save();
+         return back()->with('success', 'Data Update Successfuly');
       }
 
+     }
+/*update controller end */
+
+
+/*update controller start */
+     public function delete($id){
+         $deletedata = addtodo::findOrFail($id);
+         Storage::delete('public/image/'.$deletedata->image);
+         $deletedata->delete();
+         return back();
      }
 /*update controller end */
     

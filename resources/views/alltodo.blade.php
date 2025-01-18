@@ -19,7 +19,7 @@
 
                         @foreach ($alltodos as $key=>$alltodo)
                         <tr>
-                            <th>{{++$key}}</th>
+                            <th>{{$alltodos->firstItem()+$key}}</th>
                             <td>{{$alltodo->title}}</td>
                             <td>{{Str::length($alltodo->details)>20 ? Str::substr($alltodo->details, 0, 20)."...." : $alltodo->details}}</td>
                             <td>
@@ -28,8 +28,18 @@
                             <td>
 
                                 <div class="btn-group" role="group">
+
                                     <a href="{{route('edit',$alltodo->id)}}" class="btn btn-warning">Edit</a>
-                                    <a href="" class="btn btn-danger">Delete</a>
+
+                                    <form action="{{route('delete',$alltodo->id)}}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <input class="btn btn-danger" type="submit" value="Delete">
+                                    </form>
+
+
+                                    {{-- <a href="" class="btn btn-danger">Delete</a> --}}
                                 </div> 
                             </td>
                         </tr>

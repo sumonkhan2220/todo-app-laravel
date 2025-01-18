@@ -27,3 +27,5 @@ Route::post('insert', [TodoController::class, 'insert'])->name('insert');
 Route::get('/edit/{id}', [TodoController::class, 'edit'])->name('edit');
 
 Route::put('/update/{id}',[TodoController::class, 'update'])->name('update');
+
+Route::delete('/delete/{id}',[TodoController::class, 'delete'])->name('delete');
